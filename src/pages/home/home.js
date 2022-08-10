@@ -8,10 +8,17 @@ const Home = () => {
   const firstName = useSelector((state) => state.user.firstName)
   const lastName = useSelector((state) => state.user.lastName)
   const [datas, setDatas] = useState([])
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  getMemes().then((res) => {
-    setDatas(res)
-  })
+  function LoadDatas() {
+    return isLoaded === false
+      ? getMemes().then((res) => {
+          setDatas(res)
+          setIsLoaded(true)
+        })
+      : null
+  }
+  LoadDatas()
 
   return (
     <div>
