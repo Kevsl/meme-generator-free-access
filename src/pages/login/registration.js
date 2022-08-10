@@ -2,17 +2,21 @@ import './login.css'
 import loginMeme from '../../assets/login-meme.jpeg'
 import { checkEmail, checkPassword } from '../../utils/regex'
 import React, { useState } from 'react'
-import { login } from '../../services/auth'
+import { register } from '../../services/auth'
 
-const Login = () => {
+const Registration = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailAlert, setEmailAlert] = useState(false)
+  const [passwordConfirmAlert, setPasswordConfirmAlert] = useState('')
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
-  function handleLogin(email, password) {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+
+  function handleRegistration(email, password) {
     checkEmail(email) === true && checkPassword(password) === true
-      ? login(email, password)
+      ? register(email, password, firstName, lastName)
       : alert('Problème avec votre saisie')
   }
 
@@ -29,11 +33,16 @@ const Login = () => {
       ? setPasswordAlert(false)
       : setPasswordAlert(true)
   }
+  function handlePasswordConfirm(param) {
+    param.length > 4 && param !== password
+      ? setPasswordConfirmAlert(true)
+      : setPasswordConfirmAlert(false)
+  }
 
   return (
     <div>
       <img src={loginMeme} alt="login-meme" className="w-50 br-9 block" />
-      <h1 className="text-center">Connexion</h1>
+      <h1 className="text-center">Register</h1>
 
       <input
         className="block w-50 bg-lightGray indent-10 br-9"
@@ -49,10 +58,9 @@ const Login = () => {
           Veuillez vérifier votre adresse email!
         </p>
       ) : null}
-
       <div className="flex block w-50 relative">
         <input
-          className=" bg-lightGray indent-10 br-9 w-100"
+          className="block  bg-lightGray indent-10 br-9 w-100"
           type={passwordVisible === true ? 'text' : 'password'}
           placeholder="Password"
           onChange={(e) => {
@@ -73,26 +81,66 @@ const Login = () => {
         ></i>
       </div>
 
-      {
-        // <i className="fa-solid fa-eye-slash"></i>
-        // <i className="fa-solid fa-eyes"></i>
-      }
       {passwordAlert === true ? (
         <p className="text-red text-center">
           Votre mot de passe doit contenir 1 majuscule, 1 minuscule, 1 chiffre
           et 1 caractère spécial.
         </p>
       ) : null}
+      <div className="flex block w-50 relative">
+        <input
+          className="block  bg-lightGray indent-10 br-9 w-100"
+          type={passwordVisible === true ? 'text' : 'password'}
+          placeholder="Confirm your password"
+          onChange={(e) => {
+            handlePasswordConfirm(e.target.value)
+          }}
+        />
+        <i
+          className={
+            passwordVisible === true
+              ? 'fa-solid fa-eye-slash inline-block absolute eye-icon'
+              : 'fa-solid fa-eye  absolute eye-icon inline-block '
+          }
+          onClick={() => {
+            passwordVisible === true
+              ? setPasswordVisible(false)
+              : setPasswordVisible(true)
+          }}
+        ></i>
+      </div>
+      {passwordConfirmAlert === true ? (
+        <p className="text-red text-center">
+          Vos mots de passe doivent être identiques
+        </p>
+      ) : null}
+
+      <input
+        className="block  bg-lightGray indent-10 br-9 w-50"
+        type="text"
+        placeholder="first name"
+        onChange={(e) => {
+          setFirstName(e.target.value)
+        }}
+      />
+      <input
+        className="block  bg-lightGray indent-10 br-9 w-50"
+        type="text"
+        placeholder="last name"
+        onChange={(e) => {
+          setLastName(e.target.value)
+        }}
+      />
 
       <button
         className="block w-50 bg-lightGray br-9 text-center btn-border bg-blue"
         onClick={() => {
-          handleLogin(email, password)
+          handleRegistration(email, password)
         }}
       >
-        Connexion
+        Registration
       </button>
     </div>
   )
 }
-export default Login
+export default Registration
