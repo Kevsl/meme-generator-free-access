@@ -32,6 +32,9 @@ const Login = () => {
             'accessToken',
             JSON.stringify(res.data.access_token)
           )
+          localStorage.setItem('firstName', JSON.stringify(res.data.firstName))
+          localStorage.setItem('lastName', JSON.stringify(res.data.lastName))
+
           navigate('/')
         })
       : alert('Problème avec votre saisie')
