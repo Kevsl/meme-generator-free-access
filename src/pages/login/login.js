@@ -3,6 +3,13 @@ import loginMeme from '../../assets/login-meme.jpeg'
 import { checkEmail, checkPassword } from '../../utils/regex'
 import React, { useState } from 'react'
 import { login } from '../../services/auth'
+import { useDispatch } from 'react-redux'
+import {
+  setFirstName,
+  setLastName,
+  setUserId,
+  setAccessToken,
+} from '../../redux/user'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -10,9 +17,20 @@ const Login = () => {
   const [emailAlert, setEmailAlert] = useState(false)
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const dispatch = useDispatch()
+
   function handleLogin(email, password) {
     checkEmail(email) === true && checkPassword(password) === true
-      ? login(email, password)
+      ? login(email, password).then((res) => {
+          dispatch(setFirstName(res.data.firstName))
+          dispatch(setLastName(res.data.lastName))
+          dispatch(setUserId(res.data.userId))
+          dispatch(setAccessToken(res.data.access_token))
+          localStorage.setItem(
+            'accessToken',
+            JSON.stringify(res.data.access_token)
+          )
+        })
       : alert('Problème avec votre saisie')
   }
 
@@ -25,8 +43,8 @@ const Login = () => {
 
   function handlePassword(param) {
     setPassword(param)
-    password.length > 4 && checkPassword(password) === true
-      ? setPasswordAlert(false)
+    return param.length > 4 && checkPassword(param) === true
+      ? (setPassword(param), setPasswordAlert(false))
       : setPasswordAlert(true)
   }
 

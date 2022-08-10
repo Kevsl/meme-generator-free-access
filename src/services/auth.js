@@ -49,7 +49,7 @@ export async function login(email, password) {
     )
     .then(
       (res) => {
-        console.log(res.data)
+        return res
       },
       (error) => {
         console.log(error)
