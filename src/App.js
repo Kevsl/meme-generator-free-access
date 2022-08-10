@@ -2,6 +2,7 @@ import './App.css'
 import Login from './pages/login/login'
 import Registration from './pages/login/registration'
 import Home from './pages/home/home'
+import CreateMeme from './pages/create-meme/create-meme'
 import { useDispatch } from 'react-redux'
 import { setFirstName, setLastName, setAccessToken } from './redux/user'
 import React, { useEffect } from 'react'
@@ -40,6 +41,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/create-meme" element={<CreateMeme />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
       </Routes>

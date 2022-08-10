@@ -20,8 +20,10 @@ const Home = () => {
         <p>Welcome {firstName + ' ' + lastName}</p>
       </div>
       <div className="  flex wrap jc-sa items-center">
-        {datas.map((data) => {
-          return <MemeCard title={data.name} id={data.id} image={data.url} />
+        {datas.map((data, i) => {
+          return (
+            <MemeCard title={data.name} id={data.id} image={data.url} key={i} />
+          )
         })}
       </div>
     </div>

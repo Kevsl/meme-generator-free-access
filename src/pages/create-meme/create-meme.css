@@ -1,0 +1,18 @@
+.w-50 {
+  width: 50%;
+}
+
+.fs-32 {
+  font-size: 32px;
+}
+
+.top-20 {
+  top: 10px;
+}
+.bottom-20 {
+  bottom: 10px;
+}
+.text-white {
+  color: #000;
+  box-shadow: 0 0 10px rgba;
+}
