@@ -10,6 +10,7 @@ import {
   setUserId,
   setAccessToken,
 } from '../../redux/user'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -18,6 +19,7 @@ const Login = () => {
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
   const dispatch = useDispatch()
+  let navigate = useNavigate()
 
   function handleLogin(email, password) {
     checkEmail(email) === true && checkPassword(password) === true
@@ -30,6 +32,7 @@ const Login = () => {
             'accessToken',
             JSON.stringify(res.data.access_token)
           )
+          navigate('/')
         })
       : alert('Problème avec votre saisie')
   }
